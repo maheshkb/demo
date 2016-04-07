@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="com.mydomain.model.Users" table="USERS" schema="APP" >
+	<class name="com.mydomain.model.User" table="USERS" schema="APP" >
 		<id name="id" type="int">
 			<column name="ID" />
 			<generator class="native" />

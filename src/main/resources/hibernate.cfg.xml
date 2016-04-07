@@ -14,6 +14,6 @@
 			name="hibernate.multi_tenant_connection_provider">com.mydomain.biz.TenantBasedConnectionProvider</property> -->
 		<property name="hibernate.connection.isolation">2</property>
 		
-		<mapping resource="com/mydomain/model/Users.hbm.xml" />
+		<mapping resource="com/mydomain/model/User.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>
