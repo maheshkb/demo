@@ -2,7 +2,7 @@ package com.mydomain.model;
 
 import java.util.Date;
 
-public class Users {
+public class User {
 
 	private Integer id;
 	private String name="";
