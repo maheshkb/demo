@@ -12,80 +12,74 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 
 import com.mydomain.dal.HibernateUtil;
+import com.mydomain.dal.UserDao;
 import com.mydomain.model.User;
 
 @Path("/user")
 public class UserService {
 
+	private UserDao userDao;
+
+	public void setUserDao(final UserDao userDao) {
+		this.userDao = userDao;
+	}
+
 	@GET
 	@Path("/{param}")
-	@Produces({MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON })
 	public User getUser(@PathParam("param") Integer id) {
-		Session ses = HibernateUtil.currentSession();
-		try {
-			Criteria crit =  ses.createCriteria(User.class);
-			crit.add(Restrictions.idEq(id));
-			User u = (User)crit.uniqueResult();
-			return u;
-		} finally {
-			HibernateUtil.closeSession();
-		}
+		return userDao.getUser(id);
 	}
-	
+
 	@GET
-	@Produces({MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON })
 	public List<User> getUsers() {
-		Session ses = HibernateUtil.currentSession();
-		try {
-			return ses.createCriteria(User.class).list();
-		} finally {
-			HibernateUtil.closeSession();
-		}
+		return userDao.getUserList();
 	}
-	
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	//public void createUser(@FormParam("name") String name,@FormParam("age") Integer age,@FormParam("emailId") String emailId){
-	public void createUser(User u){
-		System.out.println("Creating user: "+u.getName()+" Age: "+u.getAge());
+	// public void createUser(@FormParam("name") String name,@FormParam("age")
+	// Integer age,@FormParam("emailId") String emailId){
+	public void createUser(User u) {
+		System.out.println("Creating user: " + u.getName() + " Age: " + u.getAge());
 		Session ses = HibernateUtil.currentSession();
 		try {
 			Transaction tx = ses.beginTransaction();
 			ses.save(u);
 			tx.commit();
-		}finally{
+		} finally {
 			HibernateUtil.closeSession();
 		}
 	}
-	
+
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	//@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	//public void updateUser(@FormParam("id") Integer id, @FormParam("name") String name,@FormParam("age") Integer age,@FormParam("emailId") String emailId){
-	public void updateUser(User u){
-		System.out.println("Updating user: "+u.getName());
+	// @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	// public void updateUser(@FormParam("id") Integer id, @FormParam("name")
+	// String name,@FormParam("age") Integer age,@FormParam("emailId") String
+	// emailId){
+	public void updateUser(User u) {
+		System.out.println("Updating user: " + u.getName());
 		Session ses = HibernateUtil.currentSession();
 		try {
 			Transaction tx = ses.beginTransaction();
 			ses.update(u);
 			tx.commit();
-		}finally{
+		} finally {
 			HibernateUtil.closeSession();
 		}
 	}
-	
+
 	@DELETE
 	@Path("/{param}")
-	@Produces({MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON })
 	public boolean deleteUser(@PathParam("param") Integer id) {
-		System.out.println("Deleting user: "+id);
+		System.out.println("Deleting user: " + id);
 		Session ses = HibernateUtil.currentSession();
 		try {
 			Transaction tx = ses.beginTransaction();
@@ -97,5 +91,5 @@ public class UserService {
 			HibernateUtil.closeSession();
 		}
 	}
-	
+
 }
